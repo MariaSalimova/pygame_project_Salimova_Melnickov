@@ -1,1 +1,1 @@
-# pygame_project_Salimova_Melnikov
+# pygame_project_Salimova_Melnickov
