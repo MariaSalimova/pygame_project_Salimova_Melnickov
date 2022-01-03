@@ -1,7 +1,7 @@
 import pygame
 import os
 import sys
-from classes import config, main_character, tile
+from classes import config
 
 client_config = config.Config()
 
@@ -31,5 +31,4 @@ def generate_level(level):
         for x in range(len(level[y])):
             """здесь будет генерация уровней но пока карт нет"""
             pass
-    new_player = main_character.MainCharacter(x, y)
     return new_player, x, y
