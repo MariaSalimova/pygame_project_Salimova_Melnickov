@@ -1,8 +1,7 @@
 import pygame
 import os
 import sys
-import config
-
+from classes import config, main_character, tile
 
 client_config = config.Config()
 
@@ -24,3 +23,13 @@ def load_image(name, colorkey=-1):
 def terminate():
     pygame.quit()
     sys.exit()
+
+
+def generate_level(level):
+    new_player, x, y = None, None, None
+    for y in range(len(level)):
+        for x in range(len(level[y])):
+            """здесь будет генерация уровней но пока карт нет"""
+            pass
+    new_player = main_character.MainCharacter(x, y)
+    return new_player, x, y

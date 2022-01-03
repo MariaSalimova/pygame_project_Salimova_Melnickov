@@ -1,8 +1,8 @@
 import pygame
-import config
+from classes import config
 from until_function import load_image, terminate
 from constants import FPS, PATH_OF_MAINFON
-from buttons import Button
+from classes.buttons import Button
 
 
 pygame.init()
