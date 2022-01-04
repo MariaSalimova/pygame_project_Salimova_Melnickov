@@ -10,14 +10,15 @@ class Button:
         self.height = height
         self.text = text
 
-    def draw(self, surface, outline=None):
+    def draw(self, surface, color_text='black', outline=None):
         # Call this method to draw the button on the screen
-        if outline:
-            pygame.draw.rect(surface, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
-        pygame.draw.rect(surface, self.color, (self.x, self.y, self.width, self.height), 0)
+        # Рисование прямоугольника под кнопками
+        # if outlined:
+        #     pygame.draw.rect(surface, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
+        # pygame.draw.rect(surface, self.color, (self.x, self.y, self.width, self.height), 0)
         if self.text != '':
             font = pygame.font.SysFont('comicsans', 60)
-            text = font.render(self.text, 1, (0, 0, 0))
+            text = font.render(self.text, True, color_text)
             surface.blit(text, (
                 self.x + (self.width / 2 - text.get_width() / 2), self.y + (self.height / 2 - text.get_height() / 2)))
 

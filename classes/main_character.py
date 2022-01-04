@@ -15,7 +15,7 @@ class MainCharacter(pygame.sprite.Sprite):
         self.run_frames_left = [PATH_OF_MC_RUN_LEFT2, PATH_OF_MC_RUN_LEFT1]
 
     def attack(self, enemy):
-        """я не совсем понимаю как реализовать возможнось атаки"""
+        # TODO я не совсем понимаю как реализовать возможнось атаки
         pass
 
     def update(self, key):

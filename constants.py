@@ -1,12 +1,13 @@
-"""значения"""
+# Значения
 FPS = 60
 GRAVITY = 1
 TILE_SIZE = 250
 
-"""пути"""
+# Пути
 PATH_OF_TEXTURE = 'data/texture'
 PATH_OF_MUSIC = 'data/sound/music'
 PATH_OF_MAINFON = 'texture/fons/main_fon.jpg'
+PATH_OF_SETTINGFON = 'texture/fons/setting_fon.jpg'
 PATH_OF_MC_IDLE_LEFT = 'texture/entities/main_character/main_character_idle/mc_idle_left.png'
 PATH_OF_MC_IDLE_RIGHT = 'texture/entities/main_character/main_character_idle/mc_idle_right.png'
 PATH_OF_MC_JUMP_LEFT = 'texture/entities/main_character/main_character_jump/mc_jump_left.png'

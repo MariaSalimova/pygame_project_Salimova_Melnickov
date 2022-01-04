@@ -10,6 +10,7 @@ def main():
     size = width, height = client_config.get_screen_size()
     screen = pygame.display.set_mode(size)
 
+
     pygame.display.set_caption('Кошки!)')
 
     MainScreen(size, screen, clock)

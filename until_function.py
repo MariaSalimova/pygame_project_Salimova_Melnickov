@@ -29,6 +29,6 @@ def generate_level(level):
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
-            """здесь будет генерация уровней но пока карт нет"""
+            # TODO Здесь будет генерация уровней но пока карт нет
             pass
     return new_player, x, y

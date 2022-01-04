@@ -18,6 +18,12 @@ class Config:
         """Считывание файла конфига"""
         self.client.read(self.config_title)
 
+    def save_screen_size(self, width, height):
+        screen = {'width': int(width),
+                  'height': int(height)}
+        self.client['screen'] = screen
+        self.save_config()
+
     def get_screen_size(self):
         size = tuple(self.client['screen'].values())
         info_object = pygame.display.Info()
