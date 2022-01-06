@@ -9,9 +9,7 @@ def main():
     clock = pygame.time.Clock()
     size = width, height = client_config.get_screen_size()
     screen = pygame.display.set_mode(size)
-
-
-    pygame.display.set_caption('Кошки!)')
+    pygame.display.set_caption('Cat Rescue')
 
     MainScreen(size, screen, clock)
     print(size)

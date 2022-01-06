@@ -12,7 +12,7 @@ class SettingsScreen:
     def __init__(self, size: tuple, screen, clock):
         fon = pg.transform.scale(load_image(PATH_OF_SETTINGFON), size)
         font = pg.font.Font(None, 30)
-        string_settings = font.render("Настройки", True, pg.Color('white'))
+        string_settings = font.render("Настройки", True, pg.Color('black'))
         intro_rect = string_settings.get_rect()
         intro_rect.left = size[0] / 2 - intro_rect.width / 2
 
@@ -22,7 +22,7 @@ class SettingsScreen:
 
         btn_save = Button('green', size[0] // 2 - 50, size[1] - 100, 100, 50, 'Сохранить')
 
-        color_inactive = pg.Color('lightskyblue3')
+        color_inactive = pg.Color('black')
         color_active = pg.Color('dodgerblue2')
 
         pg.key.set_repeat(200, 25)

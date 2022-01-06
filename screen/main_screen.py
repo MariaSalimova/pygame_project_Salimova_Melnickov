@@ -4,7 +4,7 @@ from until_function import load_image, terminate
 from constants import FPS, PATH_OF_MAINFON
 from classes.buttons import Button
 from screen.settings_screen import SettingsScreen
-
+from screen.story_screen import StoryScreen
 pygame.init()
 
 
@@ -15,10 +15,11 @@ class MainScreen:
 
         fon = pygame.transform.scale(load_image(PATH_OF_MAINFON), size)
 
-        font = pygame.font.Font(None, 30)
-        string_rendered = font.render("Главное меню", True, pygame.Color('white'))
+        font = pygame.font.Font(None, 100)
+        string_rendered = font.render("Cat Rescue", True, pygame.Color('black'))
         intro_rect = string_rendered.get_rect()
         intro_rect.left = size[0] / 2 - intro_rect.width / 2
+        intro_rect.top = intro_rect.height
 
         h = round(size[1] * 0.1)
         w = round(size[0] * 0.8)
@@ -45,6 +46,7 @@ class MainScreen:
                         terminate()
                     elif btn_start.is_clicked(pos):
                         # TODO Вызов окна игры
+                        StoryScreen(size, screen, clock)
                         pass
                     elif btn_settings.is_clicked(pos):
                         SettingsScreen(size, screen, clock)
