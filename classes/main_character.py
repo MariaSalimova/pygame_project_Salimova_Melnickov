@@ -35,6 +35,10 @@ class MainCharacter(pygame.sprite.Sprite):
         if not pygame.sprite.spritecollideany(self, collision):
             self.change_model(PATH_OF_MC_JUMP_RIGHT)
             self.rect = self.rect.move(0, GRAVITY)
+            camera.dy -= GRAVITY
+            for sprite in tiles:
+                camera.apply(sprite)
+
         if pygame.sprite.spritecollideany(self, collision):
             self.change_model(PATH_OF_MC_IDLE_RIGHT)
 
