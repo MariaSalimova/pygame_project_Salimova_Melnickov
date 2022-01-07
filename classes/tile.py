@@ -31,6 +31,8 @@ class BoxCat(Tile):
     # переносит на следующую карту
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, PATH_OF_BOX_CAT, collision=True)
+        self.add(sprite_groups.level_end)
+
 
 
 class Air(Tile):

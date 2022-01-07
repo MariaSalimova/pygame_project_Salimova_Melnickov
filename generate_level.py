@@ -1,4 +1,4 @@
-from classes import tile
+from classes import tile, enemy
 from classes.main_character import MainCharacter
 
 
@@ -16,6 +16,12 @@ def generate_level(level):
             elif level[y][x] == '@':
                 tile.Air(x, y)
                 new_player = MainCharacter(x, y)
+            elif level[y][x] == '!':
+                enemy.Enemy(x, y)
+            elif level[y][x] == '%':
+                tile.BoxCat(x, y)
+            elif level[y][x] == '$':
+                tile.MovingPlatform(x, y)
 
     return new_player, x, y
 

@@ -33,7 +33,10 @@ class MainCharacter(pygame.sprite.Sprite):
 
     def update(self, camera, key=None):
         if not pygame.sprite.spritecollideany(self, collision):
-            self.rect = self.rect.move(0, 1)
+            self.change_model(PATH_OF_MC_JUMP_RIGHT)
+            self.rect = self.rect.move(0, GRAVITY)
+        if pygame.sprite.spritecollideany(self, collision):
+            self.change_model(PATH_OF_MC_IDLE_RIGHT)
 
         if pygame.sprite.spritecollideany(self, danger):
             self.alive = False
@@ -44,3 +47,7 @@ class MainCharacter(pygame.sprite.Sprite):
         self.pos = (x, y)
         for sprite in tiles:
             camera.apply(sprite)
+
+    def change_model(self, model):
+        self.image = pygame.transform.scale(load_image(model, colorkey=None), (TILE_SIZE, TILE_SIZE))
+

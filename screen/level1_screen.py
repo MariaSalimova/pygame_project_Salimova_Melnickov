@@ -4,6 +4,7 @@ from generate_level import generate_level, load_level
 from classes.camera import Camera
 from until_function import terminate
 from constants import FPS
+import constants
 from screen.game_over_screen import GameOverScreen
 
 
@@ -30,8 +31,7 @@ class Level1Screen:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         self.move("up")
-                    elif event.key == pygame.K_s:
-                        self.move("down")
+
                     elif event.key == pygame.K_a:
                         self.move("left")
                     elif event.key == pygame.K_d:
@@ -49,12 +49,13 @@ class Level1Screen:
         if movement == "up":
             if y > 0 and self.level_map[y - 1][x] in [".", "%"]:
                 self.player.move(x, y - 1, self.camera)
-        elif movement == "down":
-            if y < self.level_y - 1 and self.level_map[y + 1][x] in [".", "%"]:
-                self.player.move(x, y + 1, self.camera)
         elif movement == "left":
             if x > 0 and self.level_map[y][x - 1] in [".", "%"]:
+                self.player.change_model(constants.PATH_OF_MC_RUN_LEFT2)
                 self.player.move(x - 1, y, self.camera)
+                self.player.change_model(constants.PATH_OF_MC_IDLE_LEFT)
         elif movement == "right":
             if x < self.level_x and self.level_map[y][x + 1] in [".", "%"]:
+                self.player.change_model(constants.PATH_OF_MC_RUN_RIGHT2)
                 self.player.move(x + 1, y, self.camera)
+                self.player.change_model(constants.PATH_OF_MC_IDLE_RIGHT)
