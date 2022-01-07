@@ -8,11 +8,11 @@ from sprite_groups import player, danger, tiles, collision, all_sprites
 # TODO: доделать главног персонажа
 class MainCharacter(pygame.sprite.Sprite):
     # на карте обозначено @
-    def __init__(self, ps_x, pos_y):
+    def __init__(self, pos_x, pos_y):
         super().__init__(all_sprites, player)
-        self.pos = ps_x, pos_y
+        self.pos = pos_x, pos_y
         self.image = pygame.transform.scale(load_image(PATH_OF_MC_IDLE_RIGHT, colorkey=None), (TILE_SIZE, TILE_SIZE))
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect().move(TILE_SIZE * pos_x, TILE_SIZE * pos_y)
         self.mask = pygame.mask.from_surface(self.image)
         self.run_frames_right = [PATH_OF_MC_RUN_RIGHT2, PATH_OF_MC_RUN_RIGHT1]
         self.run_frames_left = [PATH_OF_MC_RUN_LEFT2, PATH_OF_MC_RUN_LEFT1]
@@ -48,7 +48,7 @@ class MainCharacter(pygame.sprite.Sprite):
     def move(self, x, y, camera):
         camera.dx -= 100 * (x - self.pos[0])
         camera.dy -= 100 * (y - self.pos[1])
-        self.pos = (x, y)
+        self.pos = (x, y + 1)
         for sprite in tiles:
             camera.apply(sprite)
 

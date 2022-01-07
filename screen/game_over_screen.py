@@ -30,4 +30,4 @@ class GameOverScreen:
                         terminate()
 
             pygame.display.flip()
-            clock.tick(50)
+            clock.tick(30)

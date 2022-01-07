@@ -47,15 +47,15 @@ class Level1Screen:
     def move(self, movement):
         x, y = self.player.pos
         if movement == "up":
-            if y > 0 and self.level_map[y - 1][x] in [".", "%"]:
+            if self.level_map[y - 1][x] == '.' and pygame.sprite.spritecollideany(self.player, sprite_groups.collision):
                 self.player.move(x, y - 1, self.camera)
         elif movement == "left":
-            if x > 0 and self.level_map[y][x - 1] in [".", "%"]:
+            if x > 0 and self.level_map[y][x - 1] == '.':
                 self.player.change_model(constants.PATH_OF_MC_RUN_LEFT2)
                 self.player.move(x - 1, y, self.camera)
                 self.player.change_model(constants.PATH_OF_MC_IDLE_LEFT)
         elif movement == "right":
-            if x < self.level_x and self.level_map[y][x + 1] in [".", "%"]:
+            if x < self.level_x and self.level_map[y][x + 1] == '.':
                 self.player.change_model(constants.PATH_OF_MC_RUN_RIGHT2)
                 self.player.move(x + 1, y, self.camera)
                 self.player.change_model(constants.PATH_OF_MC_IDLE_RIGHT)
