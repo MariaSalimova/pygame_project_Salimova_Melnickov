@@ -11,7 +11,7 @@ class MainCharacter(pygame.sprite.Sprite):
     def __init__(self, ps_x, pos_y):
         super().__init__(all_sprites, player)
         self.pos = ps_x, pos_y
-        self.image = load_image(PATH_OF_MC_IDLE_RIGHT, colorkey=None)
+        self.image = pygame.transform.scale(load_image(PATH_OF_MC_IDLE_RIGHT, colorkey=None), (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
         self.run_frames_right = [PATH_OF_MC_RUN_RIGHT2, PATH_OF_MC_RUN_RIGHT1]
@@ -24,14 +24,17 @@ class MainCharacter(pygame.sprite.Sprite):
     def is_alive(self):
         return self.alive
 
+    def kill(self):
+        self.alive = False
+
     def attack(self, enemy):
         # TODO я не совсем понимаю как реализовать возможнось атаки
         pass
 
     def update(self, camera, key=None):
-        if pygame.sprite.spritecollideany(self, collision):
-            self.rect = self.rect.move(0, 10 * GRAVITY)
-            camera.dy += 10 * GRAVITY
+        if not pygame.sprite.spritecollideany(self, collision):
+            self.rect = self.rect.move(0, 1)
+
         if pygame.sprite.spritecollideany(self, danger):
             self.alive = False
 

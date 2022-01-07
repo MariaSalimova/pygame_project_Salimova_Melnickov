@@ -4,6 +4,7 @@ from generate_level import generate_level, load_level
 from classes.camera import Camera
 from until_function import terminate
 from constants import FPS
+from screen.game_over_screen import GameOverScreen
 
 
 class Level1Screen:
@@ -11,7 +12,7 @@ class Level1Screen:
 
         pygame.key.set_repeat(200, 25)
 
-        self.level_map = load_level('level_1')
+        self.level_map = load_level('level_2')
         self.player, self.level_x, self.level_y = generate_level(self.level_map)
 
         self.camera = Camera()
@@ -22,7 +23,10 @@ class Level1Screen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     terminate()
-
+                if not self.player.is_alive():
+                    GameOverScreen(size, screen, clock)
+                if pygame.sprite.spritecollideany(self.player, sprite_groups.danger):
+                    GameOverScreen(size, screen, clock)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         self.move("up")

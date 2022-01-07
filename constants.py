@@ -1,7 +1,7 @@
 # Значения
 FPS = 60
 GRAVITY = 1
-TILE_SIZE = 500
+TILE_SIZE = 100
 
 # Пути
 PATH_OF_TEXTURE = 'data/texture'
