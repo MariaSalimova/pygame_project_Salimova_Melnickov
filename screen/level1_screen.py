@@ -47,14 +47,14 @@ class Level1Screen:
     def move(self, movement):
         x, y = self.player.pos
         if movement == "up":
-            if y > 0 and self.level_map[y - 1][x] in [".", "%"]:
+            if y > 0 and self.level_map[y - 1][x] == '.':
                 self.player.move(x, y - 1, self.camera)
         elif movement == "down":
-            if y < self.level_y - 1 and self.level_map[y + 1][x] in [".", "%"]:
+            if y < self.level_y - 1 and self.level_map[y + 1][x] == '.':
                 self.player.move(x, y + 1, self.camera)
         elif movement == "left":
-            if x > 0 and self.level_map[y][x - 1] in [".", "%"]:
+            if x > 0 and self.level_map[y][x - 1] == '.':
                 self.player.move(x - 1, y, self.camera)
         elif movement == "right":
-            if x < self.level_x and self.level_map[y][x + 1] in [".", "%"]:
+            if x < self.level_x and self.level_map[y][x + 1] == '.':
                 self.player.move(x + 1, y, self.camera)

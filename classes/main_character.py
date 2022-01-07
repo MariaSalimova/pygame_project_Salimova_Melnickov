@@ -33,14 +33,17 @@ class MainCharacter(pygame.sprite.Sprite):
 
     def update(self, camera, key=None):
         if not pygame.sprite.spritecollideany(self, collision):
-            self.rect = self.rect.move(0, 1)
+            self.rect = self.rect.move(0, GRAVITY)
+            camera.dy -= GRAVITY
+            for sprite in tiles:
+                camera.apply(sprite)
 
         if pygame.sprite.spritecollideany(self, danger):
             self.alive = False
 
     def move(self, x, y, camera):
         camera.dx -= 100 * (x - self.pos[0])
-        camera.dy -= 100 * (y - self.pos[1])
+        camera.dy -= 110 * (y - self.pos[1])
         self.pos = (x, y)
         for sprite in tiles:
             camera.apply(sprite)
