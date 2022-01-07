@@ -1,3 +1,5 @@
+import pygame.display
+
 from until_function import load_image, terminate
 from constants import PATH_OF_SETTINGFON, FPS
 import pygame as pg
@@ -9,66 +11,52 @@ pg.init()
 
 class SettingsScreen:
 
-    def __init__(self, size: tuple, screen, clock):
-        fon = pg.transform.scale(load_image(PATH_OF_SETTINGFON), size)
-        font = pg.font.Font(None, 30)
-        string_settings = font.render("Настройки", True, pg.Color('black'))
-        intro_rect = string_settings.get_rect()
-        intro_rect.left = size[0] / 2 - intro_rect.width / 2
+    def __init__(self, size: tuple[int, int], screen, clock):
 
-        client = Config()
-
-        clock = clock
-
-        btn_save = Button('green', size[0] // 2 - 50, size[1] - 100, 100, 50, 'Сохранить')
-
-        color_inactive = pg.Color('black')
-        color_active = pg.Color('dodgerblue2')
-
+        self.size = size
+        self.client = Config()
         pg.key.set_repeat(200, 25)
-
-        width = font.render('Длина экрана:', True, color_inactive)
-        width_rect = width.get_rect()
-        width_rect.right = size[0] / 2 - 102
-        width_rect.top = size[1] * 0.328 + 5
-
-        height = font.render('Высота экрана:', True, color_inactive)
-        height_rect = height.get_rect()
-        height_rect.right = size[0] / 2 - 102
-        height_rect.top = size[1] * 0.328 + 55
-
-        width_input = pg.Rect(size[0] / 2 - 100, size[1] * 0.328, 200, 30)
-        height_input = pg.Rect(size[0] / 2 - 100, size[1] * 0.328 + 50, 200, 30)
 
         active_width = False
         active_height = False
 
-        text_width, text_height = map(str, client.get_screen_size())
+        clock = clock
+
+        self.generate()
+
         running = True
         while running:
-            screen.blit(fon, (0, 0))
-            screen.blit(string_settings, intro_rect)
-            screen.blit(height, height_rect)
-            screen.blit(width, width_rect)
-            btn_save.draw(screen, 'green')
+            screen.blit(self.fon, (0, 0))
+            screen.blit(self.string_settings, self.intro_rect)
+            screen.blit(self.height, self.height_rect)
+            screen.blit(self.width, self.width_rect)
+            self.btn_save.draw(screen, 'green')
+            self.btn_exit.draw(screen, 'red')
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     terminate()
                 if event.type == pg.MOUSEBUTTONDOWN:
 
-                    if width_input.collidepoint(event.pos):
+                    if self.width_input.collidepoint(event.pos):
                         active_width = not active_width
                     else:
                         active_width = False
 
-                    if height_input.collidepoint(event.pos):
+                    if self.height_input.collidepoint(event.pos):
                         active_height = not active_height
                     else:
                         active_height = False
 
-                    if btn_save.is_clicked(event.pos):
-                        client.save_screen_size(text_width, text_height)
+                    if self.btn_save.is_clicked(event.pos):
+                        self.size = tuple(map(int, (self.text_width, self.text_height)))
+                        self.client.save_screen_size(self.size[0], self.size[1])
+
+                        resized_screen = pygame.transform.scale(self.get_screen()[0], (size[0], size[1]))
+                        screen.blit(resized_screen, (0, 0))
+                        self.generate()
+
+                    elif self.btn_exit.is_clicked(event.pos):
                         running = False
                         break
 
@@ -76,33 +64,63 @@ class SettingsScreen:
 
                     if active_height:
                         if event.key == pg.K_RETURN:
-                            print(text_height)
-                            text_height = ''
+                            self.text_height = ''
                         elif event.key == pg.K_BACKSPACE:
-                            text_height = text_height[:-1]
+                            self.text_height = self.text_height[:-1]
                         else:
                             letter: str = event.unicode
                             if letter.isdigit():
-                                text_height += letter
+                                self.text_height += letter
 
                     if active_width:
                         if event.key == pg.K_RETURN:
-                            print(text_width)
-                            text_width = ''
+                            self.text_width = ''
                         elif event.key == pg.K_BACKSPACE:
-                            text_width = text_width[:-1]
+                            self.text_width = self.text_width[:-1]
                         else:
                             letter: str = event.unicode
                             if letter.isdigit():
-                                text_width += letter
+                                self.text_width += letter
 
-            txt_surface_w = font.render(text_width, True, color_active if active_width else color_inactive)
-            screen.blit(txt_surface_w, (width_input.x + 5, width_input.y + 5))
-            pg.draw.rect(screen, color_active if active_width else color_inactive, width_input, 2)
+            txt_surface_w = self.font.render(self.text_width, True, self.color_active if active_width else self.color_inactive)
+            screen.blit(txt_surface_w, (self.width_input.x + 5, self.width_input.y + 5))
+            pg.draw.rect(screen, self.color_active if active_width else self.color_inactive, self.width_input, 2)
 
-            txt_surface_h = font.render(text_height, True, color_active if active_height else color_inactive)
-            screen.blit(txt_surface_h, (height_input.x + 5, height_input.y + 5))
-            pg.draw.rect(screen, color_active if active_height else color_inactive, height_input, 2)
+            txt_surface_h = self.font.render(self.text_height, True, self.color_active if active_height else self.color_inactive)
+            screen.blit(txt_surface_h, (self.height_input.x + 5, self.height_input.y + 5))
+            pg.draw.rect(screen, self.color_active if active_height else self.color_inactive, self.height_input, 2)
 
             pg.display.flip()
             clock.tick(FPS)
+
+    def get_screen(self):
+        return pygame.display.set_mode(self.size), self.size
+
+    def generate(self):
+
+        self.fon = pg.transform.scale(load_image(PATH_OF_SETTINGFON), self.size)
+        self.font = pg.font.Font(None, 30)
+        self.string_settings = self.font.render("Настройки", True, pg.Color('black'))
+        self.intro_rect = self.string_settings.get_rect()
+        self.intro_rect.left = self.size[0] / 2 - self.intro_rect.width / 2
+
+        self.btn_save = Button('green', self.size[0] // 2 - 50, self.size[1] - 100, 100, 50, 'Сохранить')
+        self.btn_exit = Button('red', 0, self.size[1] - 50, 50, 50, 'E')
+
+        self.color_inactive = pg.Color('black')
+        self.color_active = pg.Color('dodgerblue2')
+
+        self.width = self.font.render('Длина экрана:', True, self.color_inactive)
+        self.width_rect = self.width.get_rect()
+        self.width_rect.right = self.size[0] / 2 - 102
+        self.width_rect.top = self.size[1] * 0.328 + 5
+
+        self.height = self.font.render('Высота экрана:', True, self.color_inactive)
+        self.height_rect = self.height.get_rect()
+        self.height_rect.right = self.size[0] / 2 - 102
+        self.height_rect.top = self.size[1] * 0.328 + 55
+
+        self.width_input = pg.Rect(self.size[0] / 2 - 100, self.size[1] * 0.328, 200, 30)
+        self.height_input = pg.Rect(self.size[0] / 2 - 100, self.size[1] * 0.328 + 50, 200, 30)
+
+        self.text_width, self.text_height = map(str, self.client.get_screen_size())

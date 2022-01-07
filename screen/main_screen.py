@@ -13,43 +13,53 @@ class MainScreen:
 
     def __init__(self, size: tuple, screen, clock):
 
-        fon = pygame.transform.scale(load_image(PATH_OF_MAINFON), size)
-
-        font = pygame.font.Font(None, 100)
-        string_rendered = font.render("Cat Rescue", True, pygame.Color('black'))
-        intro_rect = string_rendered.get_rect()
-        intro_rect.left = size[0] / 2 - intro_rect.width / 2
-        intro_rect.top = intro_rect.height
-
-        h = round(size[1] * 0.1)
-        w = round(size[0] * 0.8)
-        pos_x = round(size[0] * 0.1)
-        btn_start = Button('white', pos_x, round(size[1] * 0.3), w, h, 'Играть')
-
-        btn_settings = Button('white', pos_x, round(size[1] * 0.5), w, h, 'Настройки')
-
-        btn_exit = Button('white', pos_x, round(size[1] * 0.7), w, h, 'Выход')
+        self.size = size
+        self.generate()
 
         while True:
-            screen.blit(fon, (0, 0))
-            btn_exit.draw(screen, 1)
-            btn_start.draw(screen, 1)
-            btn_settings.draw(screen, 1)
-            screen.blit(string_rendered, intro_rect)
+            screen.blit(self.fon, (0, 0))
+            self.btn_exit.draw(screen, 1)
+            self.btn_start.draw(screen, 1)
+            self.btn_settings.draw(screen, 1)
+            screen.blit(self.string_rendered, self.intro_rect)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     terminate()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     pos = event.pos
-                    if btn_exit.is_clicked(pos):
+
+                    if self.btn_exit.is_clicked(pos):
                         terminate()
-                    elif btn_start.is_clicked(pos):
-                        # TODO Вызов окна игры
+
+                    elif self.btn_start.is_clicked(pos):
                         StoryScreen(size, screen, clock)
-                        pass
-                    elif btn_settings.is_clicked(pos):
-                        SettingsScreen(size, screen, clock)
+
+                    elif self.btn_settings.is_clicked(pos):
+                        s = SettingsScreen(self.size, screen, clock)
+                        screen2, self.size = s.get_screen()
+                        resized_screen = pygame.transform.scale(screen2, (size[0], size[1]))
+                        screen.blit(resized_screen, (0, 0))
+                        self.generate()
 
             pygame.display.flip()
             clock.tick(FPS)
+
+    def generate(self):
+        self.fon = pygame.transform.scale(load_image(PATH_OF_MAINFON), self.size)
+
+        font = pygame.font.Font(None, 100)
+        self.string_rendered = font.render("Cat Rescue", True, pygame.Color('black'))
+        self.intro_rect = self.string_rendered.get_rect()
+        self.intro_rect.left = self.size[0] / 2 - self.intro_rect.width / 2
+        self.intro_rect.top = self.intro_rect.height
+
+        h = round(self.size[1] * 0.1)
+        w = round(self.size[0] * 0.8)
+        pos_x = round(self.size[0] * 0.1)
+
+        self.btn_start = Button('white', pos_x, round(self.size[1] * 0.3), w, h, 'Играть')
+
+        self.btn_settings = Button('white', pos_x, round(self.size[1] * 0.5), w, h, 'Настройки')
+
+        self.btn_exit = Button('white', pos_x, round(self.size[1] * 0.7), w, h, 'Выход')

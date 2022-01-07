@@ -1,7 +1,8 @@
 import pygame
-from sprite_groups import tiles, all_sprites
+from sprite_groups import tiles, all_sprites, collision
 from constants import TILE_SIZE, PATH_OF_BOX_CAT, PATH_OF_BRICK, PATH_OF_MOVING_PLATFORM, PATH_OF_AIR
 from until_function import load_image
+
 
 # TODO: доделать тайлы
 class Tile(pygame.sprite.Sprite):
@@ -20,6 +21,7 @@ class BrickTile(Tile):
     # на карте обозначено +
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, PATH_OF_BRICK, collision=True)
+        self.add(collision)
 
 
 class BoxCat(Tile):
@@ -45,3 +47,4 @@ class MovingPlatform(Tile):
     # на карте обозначено $
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, PATH_OF_MOVING_PLATFORM, collision=True)
+        self.add(collision)

@@ -1,6 +1,6 @@
-import pygame
 from classes import tile
 from classes.main_character import MainCharacter
+
 
 # TODO: доделать generate_level
 def generate_level(level):
@@ -14,7 +14,18 @@ def generate_level(level):
             elif level[y][x] == '/':
                 tile.DeathTile(x, y)
             elif level[y][x] == '@':
-                MainCharacter(x, y)
+                tile.Air(x, y)
+                new_player = MainCharacter(x, y)
 
-            pass
     return new_player, x, y
+
+
+def load_level(filename):
+    filename = "data/maps of levels/" + filename
+
+    with open(filename, 'r') as mapFile:
+        level_map = [line.strip() for line in mapFile]
+
+    max_width = max(map(len, level_map))
+
+    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
