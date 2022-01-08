@@ -11,7 +11,7 @@ from screen.game_over_screen import GameOverScreen
 class Level1Screen:
     def __init__(self, size: tuple, screen, clock):
 
-        pygame.key.set_repeat(200, 25)
+        # pygame.key.set_repeat(200, 25)
 
         self.level_map = load_level('level_2')
         self.player, self.level_x, self.level_y = generate_level(self.level_map)
@@ -37,8 +37,19 @@ class Level1Screen:
                     elif event.key == pygame.K_d:
                         self.move("right")
 
-            self.camera.update(self.player)
+                    # if event.key in [pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT]:
+                    #     if event.key == pygame.K_UP:
+                    #         self.camera.dy -= 100
+                    #     elif event.key == pygame.K_DOWN:
+                    #         self.camera.dy += 100
+                    #     elif event.key == pygame.K_LEFT:
+                    #         self.camera.dx -= 100
+                    #     elif event.key == pygame.K_RIGHT:
+                    #         self.camera.dx += 100
+                    #     for sprite in sprite_groups.all_sprites:
+                    #         self.camera.apply(sprite)
             self.player.update(self.camera)
+            self.camera.update(self.player)
             sprite_groups.tiles.draw(screen)
             sprite_groups.player.draw(screen)
             pygame.display.flip()
@@ -46,16 +57,17 @@ class Level1Screen:
 
     def move(self, movement):
         x, y = self.player.pos
+        print(x, y, movement)
         if movement == "up":
             if self.level_map[y - 1][x] == '.' and pygame.sprite.spritecollideany(self.player, sprite_groups.collision):
-                self.player.move(x, y - 1, self.camera)
+                self.player.move(x, y, movement, self.camera)
         elif movement == "left":
             if x > 0 and self.level_map[y][x - 1] == '.':
                 self.player.change_model(constants.PATH_OF_MC_RUN_LEFT2)
-                self.player.move(x - 1, y, self.camera)
+                self.player.move(x - 1, y, movement, self.camera)
                 self.player.change_model(constants.PATH_OF_MC_IDLE_LEFT)
         elif movement == "right":
             if x < self.level_x and self.level_map[y][x + 1] == '.':
                 self.player.change_model(constants.PATH_OF_MC_RUN_RIGHT2)
-                self.player.move(x + 1, y, self.camera)
+                self.player.move(x + 1, y, movement, self.camera)
                 self.player.change_model(constants.PATH_OF_MC_IDLE_RIGHT)
