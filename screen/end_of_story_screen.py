@@ -1,5 +1,5 @@
 import pygame
-from screen.level1_screen import Level1Screen
+
 from constants import PATH_OF_MAINFON
 from until_function import terminate, load_image
 pygame.init()
