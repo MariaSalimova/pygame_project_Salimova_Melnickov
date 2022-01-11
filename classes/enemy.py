@@ -17,5 +17,3 @@ class Enemy(pygame.sprite.Sprite):
         self.run_frames_right = [PATH_OF_ENEMY_RUN_RIGHT2, PATH_OF_ENEMY_RUN_RIGHT1]
         self.run_frames_left = [PATH_OF_ENEMY_RUN_LEFT2, PATH_OF_ENEMY_RUN_LEFT1]
 
-    def update(self):
-        pass

@@ -12,7 +12,7 @@ class GameOverScreen:
                 ]
         screen.blit(bg, (0, 0))
         font = pygame.font.Font(None, 100)
-        text_coord = size[0] // 2
+        text_coord = size[1] // 2
         for line in text:
             string_rendered = font.render(line, True, pygame.Color('black'))
             intro_rect = string_rendered.get_rect()

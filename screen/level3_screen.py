@@ -6,15 +6,15 @@ from until_function import terminate
 from constants import FPS
 import constants
 from screen.game_over_screen import GameOverScreen
-from screen.level2_screen import Level2Screen
+from screen.end_of_story_screen import EndOfStoryScreen
 
 
-class Level1Screen:
+class Level3Screen:
     def __init__(self, size: tuple, screen, clock):
 
         # pygame.key.set_repeat(200, 25)
 
-        self.level_map = load_level('level_1')
+        self.level_map = load_level('level_3')
         self.player, self.level_x, self.level_y = generate_level(self.level_map)
 
         self.camera = Camera()
@@ -30,7 +30,7 @@ class Level1Screen:
                 if pygame.sprite.spritecollideany(self.player, sprite_groups.danger):
                     GameOverScreen(size, screen, clock)
                 if pygame.sprite.spritecollideany(self.player, sprite_groups.level_end):
-                    Level2Screen(size, screen, clock)
+                    EndOfStoryScreen(size, screen, clock)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_w:
                         self.move("up")

@@ -24,6 +24,7 @@ class BrickTile(Tile):
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, PATH_OF_BRICK, collision=True)
         self.add(collision)
+        self.add(sprite_groups.bricks)
 
 
 class BoxCat(Tile):
@@ -53,3 +54,11 @@ class MovingPlatform(Tile):
     def __init__(self, pos_x, pos_y):
         super().__init__(pos_x, pos_y, PATH_OF_MOVING_PLATFORM, collision=True)
         self.add(collision)
+        self.add(sprite_groups.moving_platform)
+        self.v = 1
+        self.x = pos_x
+
+    def update(self):
+        if pygame.sprite.spritecollideany(self, sprite_groups.bricks):
+            self.v = self.v
+        self.x += self.v
