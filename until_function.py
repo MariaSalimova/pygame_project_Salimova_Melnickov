@@ -24,3 +24,6 @@ def terminate():
     pygame.quit()
     sys.exit()
 
+
+def get_icon_dir():
+    return os.path.dirname(__file__)

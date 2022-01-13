@@ -12,8 +12,6 @@ from screen.end_of_story_screen import EndOfStoryScreen
 class Level3Screen:
     def __init__(self, size: tuple, screen, clock):
 
-        # pygame.key.set_repeat(200, 25)
-
         self.level_map = load_level('level_3')
         self.player, self.level_x, self.level_y = generate_level(self.level_map)
 
@@ -55,8 +53,8 @@ class Level3Screen:
             self.camera.update(self.player)
             sprite_groups.danger.update()
             sprite_groups.moving_platform.update()
-            sprite_groups.moving_platform.draw()
-            sprite_groups.danger.draw()
+            sprite_groups.moving_platform.draw(screen)
+            sprite_groups.danger.draw(screen)
             sprite_groups.tiles.draw(screen)
             sprite_groups.player.draw(screen)
             pygame.display.flip()

@@ -1,34 +1,39 @@
 from classes import tile, enemy
-from classes.main_character import MainCharacter
+from classes.main_caharacter_new import MainCharacter
+from typing import Union
+from lists import collisiond
 
 
-# TODO: доделать generate_level
-def generate_level(level):
+def generate_level(level: Union[list, tuple]) -> (MainCharacter, int, int):
     new_player, x, y = None, None, None
     for y in range(len(level)):
         for x in range(len(level[y])):
             if level[y][x] == '.':
-                tile.Air(x, y)
+                continue
+                # tile.Air(x, y)
             elif level[y][x] == '+':
-                tile.BrickTile(x, y)
+                b = tile.BrickTile(x, y)
+                collisiond.append(b)
             elif level[y][x] == '/':
                 tile.DeathTile(x, y)
             elif level[y][x] == '@':
                 tile.Air(x, y)
                 new_player = MainCharacter(x, y)
             elif level[y][x] == '!':
-                tile.Air(x, y)
+                # tile.Air(x, y)
                 enemy.Enemy(x, y)
             elif level[y][x] == '%':
-                tile.Air(x, y)
+                # tile.Air(x, y)
                 tile.BoxCat(x, y)
             elif level[y][x] == '$':
-                tile.MovingPlatform(x, y)
+                m = tile.MovingPlatform(x, y)
+                collisiond.append(m)
 
     return new_player, x, y
 
 
-def load_level(filename):
+def load_level(filename: str) -> list:
+    """Загрузка карты из файла"""
     filename = "data/maps of levels/" + filename
 
     with open(filename, 'r') as mapFile:

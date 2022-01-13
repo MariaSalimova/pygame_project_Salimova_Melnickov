@@ -10,7 +10,7 @@ class EndOfStoryScreen:
         bg = pygame.transform.scale(load_image(PATH_OF_MAINFON), size)
         text = ['Esc - выйти из игры',
                 'Кошачья семья воссоединилась.',
-                'Теперь им осталось вернуться домойю',
+                'Теперь им осталось вернуться домой',
                 'Человеку это не понравится.'
                 ]
         screen.blit(bg, (0, 0))
@@ -28,7 +28,8 @@ class EndOfStoryScreen:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     terminate()
-                elif event.type == pygame.K_ESCAPE:
-                    terminate()
+                elif event.type == pygame.KEYDOWN:
+                    if pygame.key == pygame.K_ESCAPE:
+                        terminate()
             pygame.display.flip()
-            clock.tick(50)
+            clock.tick(30)

@@ -6,59 +6,55 @@ from constants import TILE_SIZE, PATH_OF_BOX_CAT, PATH_OF_BRICK, PATH_OF_MOVING_
 from until_function import load_image
 
 
-# TODO: доделать тайлы
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y, tile_image_path, collision=False):
+    """Основной класс объекта в игре"""
+    def __init__(self, pos_x: int, pos_y: int, tile_image_path: str) -> None:
         super().__init__(tiles, all_sprites)
         self.image = pygame.transform.scale(load_image(tile_image_path, colorkey=None), (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect().move(
             TILE_SIZE * pos_x, TILE_SIZE * pos_y)
-        self.collision = collision
-
-    def can_go_trough(self):
-        return self.collision
 
 
 class BrickTile(Tile):
-    # на карте обозначено +
+    """На карте обозначено '+'"""
     def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, PATH_OF_BRICK, collision=True)
+        super().__init__(pos_x, pos_y, PATH_OF_BRICK)
         self.add(collision)
         self.add(sprite_groups.bricks)
 
 
 class BoxCat(Tile):
-    # на карте обозначено %
-    # переносит на следующую карту
+    """На карте обозначено '%'
+    Переносит на следующую карту"""
     def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, PATH_OF_BOX_CAT, collision=True)
+        super().__init__(pos_x, pos_y, PATH_OF_BOX_CAT)
         self.add(sprite_groups.level_end)
 
 
-
 class Air(Tile):
-    # на карте обозначено .
+    """На карте обозначено '.'"""
     def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, PATH_OF_AIR, collision=False)
+        super().__init__(pos_x, pos_y, PATH_OF_AIR)
 
 
 class DeathTile(Tile):
-    # на карте обозначено /
+    """На карте обозначено '/'"""
     def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, PATH_OF_AIR, collision=True)
+        super().__init__(pos_x, pos_y, PATH_OF_AIR)
         self.add(sprite_groups.danger)
 
 
 class MovingPlatform(Tile):
-    # на карте обозначено $
+    """На карте обозначено '$'"""
     def __init__(self, pos_x, pos_y):
-        super().__init__(pos_x, pos_y, PATH_OF_MOVING_PLATFORM, collision=True)
+        super().__init__(pos_x, pos_y, PATH_OF_MOVING_PLATFORM)
         self.add(collision)
         self.add(sprite_groups.moving_platform)
         self.v = 1
         self.x = pos_x
 
     def update(self):
+        """Движение платформы """
         if pygame.sprite.spritecollideany(self, sprite_groups.bricks):
-            self.v = self.v
+            self.v = -self.v
         self.x += self.v

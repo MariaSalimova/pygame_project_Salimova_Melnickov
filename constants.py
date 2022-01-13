@@ -2,6 +2,8 @@
 FPS = 60
 GRAVITY = 1
 TILE_SIZE = 100
+MOVE_SPEED = 5
+JUMP_POWER = 25
 
 # Пути
 PATH_OF_TEXTURE = 'data/texture'

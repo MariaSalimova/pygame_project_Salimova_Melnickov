@@ -1,10 +1,9 @@
 import pygame
 import sprite_groups
 from generate_level import generate_level, load_level
-from classes.camera import Camera
+from classes.camera_new import Camera
 from until_function import terminate
-from constants import FPS
-import constants
+from constants import FPS, TILE_SIZE
 from screen.game_over_screen import GameOverScreen
 from screen.level2_screen import Level2Screen
 
@@ -12,70 +11,59 @@ from screen.level2_screen import Level2Screen
 class Level1Screen:
     def __init__(self, size: tuple, screen, clock):
 
-        # pygame.key.set_repeat(200, 25)
-
-        self.level_map = load_level('level_1')
+        self.level_map = load_level('level_2')
         self.player, self.level_x, self.level_y = generate_level(self.level_map)
 
-        self.camera = Camera()
+        self.camera = Camera(self.level_x * TILE_SIZE, self.level_y * TILE_SIZE)
+
+        up = left = right = False
 
         running = True
         while running:
-            screen.fill('black')
+            screen.fill('white')
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     terminate()
                 if not self.player.is_alive():
                     GameOverScreen(size, screen, clock)
                 if pygame.sprite.spritecollideany(self.player, sprite_groups.danger):
+                    print('tut')
                     GameOverScreen(size, screen, clock)
                 if pygame.sprite.spritecollideany(self.player, sprite_groups.level_end):
+
+                    # sprite_groups.bricks = pygame.sprite.Group()
+                    # sprite_groups.all_sprites = pygame.sprite.Group()
+                    # sprite_groups.tiles = pygame.sprite.Group()
+                    # sprite_groups.player.remove(self.player)
+                    # # sprite_groups.enemies = pygame.sprite.Group()
+                    # sprite_groups.danger = pygame.sprite.Group()
+                    # sprite_groups.teleporter = pygame.sprite.Group()
+                    # sprite_groups.level_end = pygame.sprite.Group()
+                    # sprite_groups.collision = pygame.sprite.Group()
+                    # sprite_groups.not_collision = pygame.sprite.Group()
+                    # sprite_groups.moving_platform = pygame.sprite.Group()
+
                     Level2Screen(size, screen, clock)
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w:
-                        self.move("up")
+                    if event.key == pygame.K_UP:
+                        up = True
+                    if event.key == pygame.K_LEFT:
+                        left = True
+                    if event.key == pygame.K_RIGHT:
+                        right = True
 
-                    elif event.key == pygame.K_a:
-                        self.move("left")
-                    elif event.key == pygame.K_d:
-                        self.move("right")
-
-                    # if event.key in [pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN, pygame.K_RIGHT]:
-                    #     if event.key == pygame.K_UP:
-                    #         self.camera.dy -= 100
-                    #     elif event.key == pygame.K_DOWN:
-                    #         self.camera.dy += 100
-                    #     elif event.key == pygame.K_LEFT:
-                    #         self.camera.dx -= 100
-                    #     elif event.key == pygame.K_RIGHT:
-                    #         self.camera.dx += 100
-                    #     for sprite in sprite_groups.all_sprites:
-                    #         self.camera.apply(sprite)
-            self.player.update(self.camera)
+                if event.type == pygame.KEYUP:
+                    if event.key == pygame.K_UP:
+                        up = False
+                    if event.key == pygame.K_RIGHT:
+                        right = False
+                    if event.key == pygame.K_LEFT:
+                        left = False
+            self.player.update(left, right, up)
             self.camera.update(self.player)
             sprite_groups.danger.update()
             sprite_groups.moving_platform.update()
-            sprite_groups.moving_platform.draw()
-            sprite_groups.danger.draw()
-            sprite_groups.tiles.draw(screen)
-            sprite_groups.player.draw(screen)
-            pygame.display.flip()
+            for e in sprite_groups.all_sprites:
+                screen.blit(e.image, self.camera.apply(e))
+            pygame.display.update()
             clock.tick(FPS)
-
-    def move(self, movement):
-        x, y = self.player.pos
-        print(x, y, movement)
-        if movement == "up":
-            if self.level_map[y - 1][x] in ['.', '@', '%'] and pygame.sprite.spritecollideany(self.player, sprite_groups.collision):
-                self.player.change_model(constants.PATH_OF_MC_JUMP_RIGHT)
-                self.player.move(x, y, movement, self.camera)
-        elif movement == "left":
-            if x > 0 and self.level_map[y][x - 1] in ['.', '@', '%']:
-                self.player.change_model(constants.PATH_OF_MC_RUN_LEFT2)
-                self.player.move(x - 1, y, movement, self.camera)
-                self.player.change_model(constants.PATH_OF_MC_IDLE_LEFT)
-        elif movement == "right":
-            if x < self.level_x and self.level_map[y][x + 1] in ['.', '@', '%']:
-                self.player.change_model(constants.PATH_OF_MC_RUN_RIGHT2)
-                self.player.move(x + 1, y, movement, self.camera)
-                self.player.change_model(constants.PATH_OF_MC_IDLE_RIGHT)
