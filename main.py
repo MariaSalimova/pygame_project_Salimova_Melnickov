@@ -5,7 +5,7 @@ from screen.main_screen import MainScreen
 
 def main():
     pygame.init()
-
+    pygame.key.set_repeat(25)
     client_config = config.Config()
     clock = pygame.time.Clock()
     size = width, height = client_config.get_screen_size()

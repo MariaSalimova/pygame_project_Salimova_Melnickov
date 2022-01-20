@@ -1,7 +1,7 @@
 # Pyganim (pyganim.py, ver 1)
 # A sprite animation module for Pygame.
 #
-# By Al Sweigart al@inventwithpython.com
+# By Al Sweetheart al@inventwithpython.com
 # http://inventwithpython.com/pyganim
 # Released under a "Simplified BSD" license
 #
@@ -10,13 +10,10 @@
 #
 # This should be compatible with both Python 2 and Python 3. Please email any
 # bug reports to Al at al@inventwithpython.com
-#
-
-
-# TODO: Feature idea: if the same image file is specified, re-use the Surface object. (Make this optional though.)
 
 import pygame
 import time
+from constants import TILE_SIZE
 
 # setting up constants
 PLAYING = 'playing'
@@ -81,10 +78,10 @@ class PygAnimation(object):
                 frame = frames[i]
                 assert type(frame) in (list, tuple) and len(frame) == 2, 'Frame %s has incorrect format.' % i
                 assert type(frame[0]) in (
-                    str, pygame.Surface), 'Frame %s image must be a string filename or a pygame.Surface' % i
+                str, pygame.Surface), 'Frame %s image must be a string filename or a pygame.Surface' % i
                 assert frame[1] > 0, 'Frame %s duration must be greater than zero.' % i
                 if type(frame[0]) == str:
-                    frame = (pygame.image.load(frame[0]), frame[1])
+                    frame = pygame.transform.scale(pygame.image.load(frame[0]), (TILE_SIZE, TILE_SIZE)), frame[1]
                 self._images.append(frame[0])
                 self._durations.append(frame[1])
             self._startTimes = self._getStartTimes()
@@ -106,7 +103,7 @@ class PygAnimation(object):
 
     def getCopy(self):
         # Returns a copy of this PygAnimation object, but one that refers to the
-        # Surface objects of the original so it efficiently uses memory.
+        # Surface objects of the original, so it efficiently uses memory.
         #
         # NOTE: Messing around with the original Surface objects will affect all
         # the copies. If you want to modify the Surface objects, then just make
@@ -115,7 +112,7 @@ class PygAnimation(object):
 
     def getCopies(self, numCopies=1):
         # Returns a list of copies of this PygAnimation object, but one that refers to the
-        # Surface objects of the original so it efficiently uses memory.
+        # Surface objects of the original, so it efficiently uses memory.
         #
         # NOTE: Messing around with the original Surface objects will affect all
         # the copies. If you want to modify the Surface objects, then just make
@@ -154,7 +151,7 @@ class PygAnimation(object):
         # Returns the pygame.Surface object of the frameNum-th frame in this
         # animation object. If there is a transformed version of the frame,
         # it will return that one.
-        if self._transformedImages == []:
+        if not self._transformedImages:
             return self._images[frameNum]
         else:
             return self._transformedImages[frameNum]
@@ -286,7 +283,7 @@ class PygAnimation(object):
 
         if self._state == PLAYING:
             if self.isFinished():
-                # the one exception: if this animation doesn't loop and it
+                # the one exception: if this animation doesn't loop, and it
                 # has finished playing, then toggling the pause will cause
                 # the animation to replay from the beginning.
                 # self._playingStartTime = time.time() # effectively the same as calling play()
@@ -338,7 +335,7 @@ class PygAnimation(object):
             # anything, since anchor() sets all the image to the same size.
             # The lesson is, you can only effectively call anchor() once.
 
-        self.clearTransforms()  # clears transforms since this method anchors the original images.
+        self.clearTransforms()  # Clear transforms since this method anchors the original images.
 
         maxWidth, maxHeight = self.getMaxSize()
         halfMaxWidth = int(maxWidth / 2)
@@ -348,7 +345,7 @@ class PygAnimation(object):
             # go through and copy all frames to a max-sized Surface object NOTE: This makes changes to the original
             # images in self._images, not the transformed images in self._transformedImages
             newSurf = pygame.Surface(
-                (maxWidth, maxHeight))  # TODO: this is probably going to have errors since I'm using the default depth.
+                (maxWidth, maxHeight))
 
             # set the expanded areas to be transparent
             newSurf = newSurf.convert_alpha()
@@ -410,7 +407,7 @@ class PygAnimation(object):
     def _makeTransformedSurfacesIfNeeded(self):
         # Internal-method. Creates the Surface objects for the _transformedImages list.
         # Don't call this method.
-        if self._transformedImages == []:
+        if not self._transformedImages:
             self._transformedImages = [surf.copy() for surf in self._images]
 
     # Transformation methods.
@@ -563,7 +560,6 @@ class PygAnimation(object):
     def _propSetElapsed(self, elapsed):
         # NOTE: Do to floating point rounding errors, this doesn't work precisely.
         elapsed += 0.00001  # done to compensate for rounding errors
-        # TODO - I really need to find a better way to handle the floating point thing.
 
         # Set the elapsed time to a specific value.
         if self._loop:
@@ -771,7 +767,7 @@ def getInBetweenValue(lowerBound, value, upperBound):
 
 def findStartTime(startTimes, target):
     # With startTimes as a list of sequential numbers and target as a number,
-    # returns the index of the number in startTimes that preceeds target.
+    # returns the index of the number in startTimes that precedes target.
     #
     # For example, if startTimes was [0, 2, 4.5, 7.3, 10] and target was 6,
     # then findStartTime() would return 2. If target was 12, returns 4.

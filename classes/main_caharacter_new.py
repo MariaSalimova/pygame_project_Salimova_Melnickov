@@ -11,8 +11,7 @@ import lists
 class MainCharacter(pygame.sprite.Sprite):
     """На карте обозначено '@'"""
 
-    ANIMATION_DELAY = 0.1
-    # os.chdir("..")
+    ANIMATION_DELAY = 0.2
     ICON_DIR = get_icon_dir()
 
     ANIMATION_RIGHT = [(f'{ICON_DIR}/%s' % PATH_OF_MC_IDLE_RIGHT),
@@ -40,7 +39,8 @@ class MainCharacter(pygame.sprite.Sprite):
         self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
         self.image.fill(pygame.Color(self.COLOR))
         self.rect = self.image.get_rect().move(TILE_SIZE * pos_x, TILE_SIZE * pos_y)
-        # self.image.set_colorkey(pygame.Color(self.COLOR))
+        self.rect.width = TILE_SIZE / 5 * 3
+        self.image.set_colorkey(pygame.Color(self.COLOR))
         self.alive = True
 
         boltAnim = []
@@ -53,6 +53,7 @@ class MainCharacter(pygame.sprite.Sprite):
         for anim in self.ANIMATION_LEFT:
             boltAnim.append((anim, self.ANIMATION_DELAY))
         self.boltAnimLeft = pyganim.PygAnimation(boltAnim)
+        self.boltAnimLeft.play()
 
         self.boltAnimStay = pyganim.PygAnimation(self.ANIMATION_STAY)
         self.boltAnimStay.play()
@@ -66,10 +67,6 @@ class MainCharacter(pygame.sprite.Sprite):
 
         self.boltAnimJump = pyganim.PygAnimation(self.ANIMATION_JUMP_LEFT)
         self.boltAnimJump.play()
-
-    def set_current_level(self, map):
-        # TODO зачем это?
-        self.cur_level = map
 
     def is_alive(self):
         """Возвращает живой ли игрок"""
@@ -111,7 +108,7 @@ class MainCharacter(pygame.sprite.Sprite):
         if not self.onGround:
             self.yvel += GRAVITY
 
-        self.onGround = False  # Мы не знаем, когда мы на земле((
+        self.onGround = False
         self.rect.y += self.yvel
         self.collide(0, self.yvel, lists.collisiond)
 

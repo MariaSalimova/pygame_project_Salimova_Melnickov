@@ -12,6 +12,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(load_image(PATH_OF_ENEMY_IDLE_LEFT, colorkey=None), (TILE_SIZE, TILE_SIZE))
         self.rect = self.image.get_rect().move(TILE_SIZE * pos_x, TILE_SIZE * pos_y)
         self.mask = pygame.mask.from_surface(self.image)
+        self.rect.width = TILE_SIZE / 5 * 3
         self.run_frames_right = [PATH_OF_ENEMY_RUN_RIGHT2, PATH_OF_ENEMY_RUN_RIGHT1]
         self.run_frames_left = [PATH_OF_ENEMY_RUN_LEFT2, PATH_OF_ENEMY_RUN_LEFT1]
 
