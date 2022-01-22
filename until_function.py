@@ -6,17 +6,17 @@ from classes import config
 client_config = config.Config()
 
 
-def load_image(name, colorkey=-1):
+def load_image(name, colorkey=None):
     fullname = os.path.join(name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
         sys.exit()
     image = pygame.image.load(fullname)
-    if colorkey == -1:
+    """if colorkey is None:
         colorkey = image.get_at((0, 0))
         image.set_colorkey(colorkey)
     else:
-        image = image.convert_alpha()
+        image = image.convert_alpha()"""
     return image
 
 

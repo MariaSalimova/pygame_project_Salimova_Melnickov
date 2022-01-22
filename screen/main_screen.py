@@ -4,7 +4,7 @@ from until_function import load_image, terminate
 from constants import FPS, PATH_OF_MAINFON
 from classes.buttons import Button
 from screen.settings_screen import SettingsScreen
-from screen.story_screen import StoryScreen
+from screen.the_game_itself import TheGameItself
 pygame.init()
 
 
@@ -33,7 +33,7 @@ class MainScreen:
                         terminate()
 
                     elif self.btn_start.is_clicked(pos):
-                        StoryScreen(size, screen, clock)
+                        TheGameItself(size, screen, clock)
 
                     elif self.btn_settings.is_clicked(pos):
                         s = SettingsScreen(self.size, screen, clock)

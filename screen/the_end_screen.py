@@ -1,21 +1,19 @@
 import pygame
-
 from constants import PATH_OF_MAINFON
 from until_function import terminate, load_image
 pygame.init()
 
 
-class EndOfStoryScreen:
+class TheEndScreen:
     def __init__(self, size: tuple, screen, clock):
         bg = pygame.transform.scale(load_image(PATH_OF_MAINFON), size)
         text = ['Esc - выйти из игры',
-                'Кошачья семья воссоединилась.',
-                'Теперь им осталось вернуться домой',
-                'Человеку это не понравится.'
+                'КОНЕЦ'
                 ]
         screen.blit(bg, (0, 0))
-        font = pygame.font.Font(None, 80)
-        text_coord = size[0] // 10
+        font = pygame.font.Font(None, 100)
+        text_coord = size[1] // 2
+        self.running = True
         for line in text:
             string_rendered = font.render(line, True, pygame.Color('black'))
             intro_rect = string_rendered.get_rect()
@@ -29,7 +27,8 @@ class EndOfStoryScreen:
                 if event.type == pygame.QUIT:
                     terminate()
                 elif event.type == pygame.KEYDOWN:
-                    if pygame.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE:
                         terminate()
+
             pygame.display.flip()
             clock.tick(30)
