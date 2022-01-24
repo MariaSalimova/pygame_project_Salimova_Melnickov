@@ -34,7 +34,7 @@ class TheGameItself:
 
                 screen.fill('white')
 
-                screen.blit(constants.STORY_BEGINNING[frame], (0, 0))
+                screen.blit(pygame.transform.scale(constants.STORY_BEGINNING[frame], size), (0, 0))
                 for event1 in pygame.event.get():
                     if event1.type == pygame.QUIT:
                         terminate()
@@ -65,7 +65,8 @@ class TheGameItself:
                         running3 = True
                         while running3:
                             screen.fill('white')
-                            screen.blit(load_image(constants.FOUND_A_CAT, colorkey=None), (0, 0))
+                            screen.blit(pygame.transform.scale(load_image(constants.FOUND_A_CAT, colorkey=None),
+                                                               size), (0, 0))
                             for event3 in pygame.event.get():
                                 if event3.type == pygame.QUIT:
                                     terminate()
@@ -80,7 +81,8 @@ class TheGameItself:
                         running4 = True
                         while running4:
                             screen.fill('white')
-                            screen.blit(load_image(constants.FOUND_A_CAT, colorkey=None), (0, 0))
+                            screen.blit(pygame.transform.scale(load_image(constants.FOUND_A_CAT, colorkey=None),
+                                                               size), (0, 0))
                             for event4 in pygame.event.get():
                                 if event4.type == pygame.QUIT:
                                     terminate()
@@ -95,7 +97,8 @@ class TheGameItself:
                         running5 = True
                         while running5:
                             screen.fill('white')
-                            screen.blit(load_image(constants.FOUND_A_CAT, colorkey=None), (0, 0))
+                            screen.blit(pygame.transform.scale(load_image(constants.FOUND_A_CAT, colorkey=None),
+                                                               size), (0, 0))
                             for event5 in pygame.event.get():
                                 if event5.type == pygame.QUIT:
                                     terminate()
@@ -114,7 +117,7 @@ class TheGameItself:
                         running6 = True
                         while running6:
                             screen.fill('white')
-                            screen.blit(screens[frame1], (0, 0))
+                            screen.blit(pygame.transform.scale(screens[frame1], size), (0, 0))
                             for event6 in pygame.event.get():
                                 if event6.type == pygame.QUIT:
                                     terminate()
@@ -151,15 +154,15 @@ class TheGameItself:
                 for e in sprite_groups.all_sprites:
                     screen.blit(e.image, self.camera.apply(e))
                 if cats_found == 0:
-                    screen.blit(load_image(constants.CATS_FOUND0, colorkey=None), (0, 0))
+                    screen.blit(pygame.transform.scale(load_image(constants.CATS_FOUND0, colorkey=None), size), (0, 0))
                 if cats_found == 1:
-                    screen.blit(load_image(constants.CATS_FOUND1, colorkey=None), (0, 0))
+                    screen.blit(pygame.transform.scale(load_image(constants.CATS_FOUND1, colorkey=None), size), (0, 0))
                 if cats_found == 2:
-                    screen.blit(load_image(constants.CATS_FOUND2, colorkey=None), (0, 0))
+                    screen.blit(pygame.transform.scale(load_image(constants.CATS_FOUND2, colorkey=None), size), (0, 0))
                 if cats_found == 3:
-                    screen.blit(load_image(constants.CATS_FOUND3, colorkey=None), (0, 0))
+                    screen.blit(pygame.transform.scale(load_image(constants.CATS_FOUND3, colorkey=None), size), (0, 0))
                 if cats_found == 4:
-                    screen.blit(load_image(constants.CATS_FOUND4, colorkey=None), (0, 0))
+                    screen.blit(pygame.transform.scale(load_image(constants.CATS_FOUND4, colorkey=None), size), (0, 0))
                 pygame.display.update()
                 clock.tick(FPS)
             pygame.display.update()

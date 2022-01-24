@@ -1,5 +1,5 @@
 import pygame
-from classes import config, tile, main_character, camera
+from classes import config
 from screen.main_screen import MainScreen
 
 

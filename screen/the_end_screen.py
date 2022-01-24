@@ -6,7 +6,7 @@ pygame.init()
 
 class TheEndScreen:
     def __init__(self, size: tuple, screen, clock):
-        bg = pygame.transform.scale(load_image(PATH_OF_MAINFON), size)
+        bg = pygame.transform.scale(pygame.transform.scale(load_image(PATH_OF_MAINFON), size), size)
         text = ['Esc - выйти из игры',
                 'КОНЕЦ'
                 ]
